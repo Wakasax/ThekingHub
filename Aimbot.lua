@@ -13,6 +13,7 @@ nameLabel.Text = "TheKing"
 nameLabel.TextColor3 = Color3.new(1, 1, 1) -- Cor do texto
 nameLabel.BackgroundTransparency = 1 -- Transparente
 nameLabel.TextScaled = true -- Escala o texto
+nameLabel.Visible = true -- Certifique-se de que o label está visível
 nameLabel.Parent = screenGui
 
 local aimbotEnabled = true -- Ativar/desativar aimbot
@@ -58,6 +59,7 @@ end
 game:GetService("User InputService").InputBegan:Connect(function(input, gameProcessed)
     if input.KeyCode == Enum.KeyCode.F then -- Pressione F para ativar/desativar o aimbot
         aimbotEnabled = not aimbotEnabled
+        print("Aimbot enabled:", aimbotEnabled) -- Debug
     end
 end)
 
@@ -66,13 +68,4 @@ while true do
         local enemy = findClosestEnemy()
         if enemy then
             marker.Visible = true
-            marker.Position = character.HumanoidRootPart.Position + (enemy.Character.HumanoidRootPart.Position - character.HumanoidRootPart.Position).Unit * 5
-            aimAtEnemy(enemy)
-        else
-            marker.Visible = false
-        end
-    else
-        marker.Visible = false
-    end
-    wait(0.1) -- Atraso para melhorar o desempenho
-end
+            marker
