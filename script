@@ -1,0 +1,39 @@
+local player = game.Players.LocalPlayer
+local character = player.Character
+local camera = workspace.CurrentCamera
+
+function findClosestEnemy()
+    local closestEnemy
+    local closestDistance = math.huge
+
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v ~= player and v.Character and v.Character:FindFirstChild("Humanoid") then
+            local distance = (character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+            if distance < closestDistance then
+                closestEnemy = v
+                closestDistance = distance
+            end
+        end
+    end
+
+    return closestEnemy
+end
+
+-- Cria um marcador
+local marker = Instance.new("Part")
+marker.Parent = workspace
+marker.CanCollide = false
+marker.Transparency = 0.5
+marker.Size = Vector3.new(0.1, 0.1, 0.1)
+marker.Color = Color3.new(1, 0, 0)
+
+while true do
+    local enemy = findClosestEnemy()
+    if enemy then
+        marker.Visible = true
+        marker.Position = character.HumanoidRootPart.Position + (enemy.Character.HumanoidRootPart.Position - character.HumanoidRootPart.Position).Unit * 5
+    else
+        marker.Visible = false
+    end
+    wait()
+end
